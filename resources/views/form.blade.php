@@ -35,13 +35,20 @@
   <body class="text-center">
     
 <main class="form-signin">
+
+  @if(session()->has('danger'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {!! session('danger') !!}
+    </div>    
+  @endif
+
   <form action="/pdf" method="POST">
     @csrf
     <img class="mb-4" src="/photo/logo-himatif.png" alt="" width="50%">
     <h1 class="h3 mb-3 fw-normal">Sertifikat Staff Tetap Himatif</h1>
 
     <div class="form-floating">
-      <input type="text" class="form-control @error('nama') is-invalid @enderror" id="floatingInput" placeholder="M" name="nama">
+      <input type="text" class="form-control @error('nama') is-invalid @enderror" id="floatingInput" placeholder="M" name="nama" value="{{ old('nama') }}">
       <label for="floatingInput">Nama Anda</label>
       @error('nama')
         <div class="invalid-feedback">
@@ -49,7 +56,16 @@
         </div>
       @enderror
     </div>
-
+    <div class="form-floating">
+      <input type="text" class="form-control @error('nim') is-invalid @enderror" id="floatingPassword" placeholder="Nim" name="nim" value="{{ old('nim') }}">
+      <label for="floatingPassword">nim</label>
+      @error('nim')
+        <div class="invalid-feedback">
+        {{ $message }}
+        </div>
+      @enderror
+    </div>
+    <div class="mb-3"></div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Cetak</button>
     <p class="mt-5 mb-3 text-muted">&copy; 2021–2022</p>
   </form>
