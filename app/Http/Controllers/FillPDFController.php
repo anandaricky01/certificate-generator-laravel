@@ -21,9 +21,9 @@ class FillPDFController extends Controller
         $sertifikat = new Sertifikat;
 
         // set output file 
-        $outputFileNama = public_path() . "\dcc.pdf";
-        $outputFileNomor = public_path() . "\sertif\sertifikat staff tetap.pdf";
-        $outputFileJabatan = public_path() . "\sertif\Sertifikat Staff Tetap.pdf";
+        $outputFileNama = public_path() . "/dcc.pdf";
+        $outputFileNomor = public_path() . "/sertif/sertifikat staff tetap.pdf";
+        $outputFileJabatan = public_path() . "/sertif/Sertifikat Staff Tetap.pdf";
 
         if ($sertifikat->where('nim','=',$validated['nim'])->count() == 1) {
             $sertif = $sertifikat->where('nim','=',$validated['nim'])->get()[0];
@@ -32,9 +32,9 @@ class FillPDFController extends Controller
             $jabatan = $sertif->jabatan;
             $this->fillPDFNama(public_path() . '/master/dcc.pdf', $outputFileNama, $nama);
             $this->fillPDFNomor(public_path() . '/dcc.pdf', $outputFileNomor, $nomor);
-            $this->fillPDFJabatan(public_path() . "\sertif\sertifikat staff tetap.pdf", $outputFileJabatan, $jabatan);
+            $this->fillPDFJabatan(public_path() . "/sertif/sertifikat staff tetap.pdf", $outputFileJabatan, $jabatan);
 
-            return response()->file($outputFileNomor);
+            return response()->file($outputFileJabatan);
         } 
         else {
 
@@ -59,7 +59,7 @@ class FillPDFController extends Controller
         $nama = $validated['nama'];
         $this->fillPDFNama(public_path() . '/master/dcc.pdf', $outputFileNama, $nama);
         $this->fillPDFNomor(public_path() . '/dcc.pdf', $outputFileNomor, $nomor);
-        $this->fillPDFJabatan(public_path() . "\sertif\sertifikat staff tetap.pdf", $outputFileJabatan, $validated['jabatan']);
+        $this->fillPDFJabatan(public_path() . "/sertif/sertifikat staff tetap.pdf", $outputFileJabatan, $validated['jabatan']);
         
         return response()->file($outputFileJabatan);
     }
@@ -94,7 +94,6 @@ class FillPDFController extends Controller
         $fpdi1->Cell($right,$top,$nomor,0,1,"C");
 
         return $fpdi1->Output($outputFileNomor, 'F');
-        // return $outputFileNomor;
     }
 
     public function fillPDFJabatan($file, $outputFileJabatan, $jabatan = null){
@@ -117,7 +116,6 @@ class FillPDFController extends Controller
         $fpdi2->Cell($right,$top,$jabatan,0,1,"C");
 
         return $fpdi2->Output($outputFileJabatan, 'F');
-        // return $outputFileNomor;
     }
 
 }
