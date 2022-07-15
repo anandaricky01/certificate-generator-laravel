@@ -56,6 +56,7 @@
         </div>
       @enderror
     </div>
+    <div class="mb-1"></div>
     <div class="form-floating">
       <input type="text" class="form-control @error('nim') is-invalid @enderror" id="floatingPassword" placeholder="Nim" name="nim" value="{{ old('nim') }}">
       <label for="floatingPassword">nim</label>
@@ -65,6 +66,24 @@
         </div>
       @enderror
     </div>
+    <div class="mb-1"></div>
+    <select class="form-select" aria-label="Default select example" name="jabatan">
+      <option selected value="">Anggota Staff Tetap</option>
+      <option value="Ketua Himpunan">Ketua Himpunan</option>
+      <option value="Wakil Ketua Himpunan">Wakil Ketua Himpunan</option>
+      <option value="Sekretaris">Sekretaris</option>
+      <option value="Bendahara">Bendahara</option>
+      <option value="Ketua Departemen PSDM">Ketua Departemen PSDM</option>
+      <option value="Wakil Ketua Departemen PSDM">Wakil Ketua Departemen PSDM</option>
+      <option value="Ketua Departemen Kesma">Ketua Departemen Kesma</option>
+      <option value="Wakil Ketua Departemen Kesma">Wakil Ketua Departemen Kesma</option>
+      <option value="Ketua Departemen Minat-Bakat">Ketua Departemen Minat-Bakat</option>
+      <option value="Wakil Ketua Departemen Minat-Bakat">Wakil Ketua Departemen Minat-Bakat</option>
+      <option value="Ketua Departemen Humas">Ketua Departemen Humas</option>
+      <option value="Wakil Ketua Departemen Humas">Wakil Ketua Departemen Humas</option>
+      <option value="Ketua Departemen Kominfo">Ketua Departemen Kominfo</option>
+      <option value="Wakil Ketua Departemen Kominfo">Wakil Ketua Departemen Kominfo</option>
+    </select>
     <div class="mb-3"></div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Cetak</button>
     <p class="mt-5 mb-3 text-muted">&copy; 2021–2022</p>

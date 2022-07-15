@@ -16,22 +16,36 @@ class FillPDFController extends Controller
             'nim' => 'required|min:15'
         ]);
 
+        $validated['jabatan'] = $request->jabatan;
+
         $sertifikat = new Sertifikat;
 
         // set output file 
         $outputFileNama = public_path() . "\dcc.pdf";
         $outputFileNomor = public_path() . "\sertif\sertifikat staff tetap.pdf";
+        $outputFileJabatan = public_path() . "\sertif\Sertifikat Staff Tetap.pdf";
 
-        if ($sertifikat->where('nim','=',$validated['nim'])->count() >= 1) {
+        if ($sertifikat->where('nim','=',$validated['nim'])->count() == 1) {
             $sertif = $sertifikat->where('nim','=',$validated['nim'])->get()[0];
             $nama = $sertif->nama;
             $nomor = $sertif->nomor;
+            $jabatan = $sertif->jabatan;
             $this->fillPDFNama(public_path() . '/master/dcc.pdf', $outputFileNama, $nama);
             $this->fillPDFNomor(public_path() . '/dcc.pdf', $outputFileNomor, $nomor);
+            $this->fillPDFJabatan(public_path() . "\sertif\sertifikat staff tetap.pdf", $outputFileJabatan, $jabatan);
 
             return response()->file($outputFileNomor);
         } 
         else {
+
+            if($validated['jabatan'] != NULL){
+                if ($sertifikat->where('jabatan','=',$validated['jabatan'])->count() == 1) {
+                    $ada = $sertifikat->where('jabatan','=',$validated['jabatan'])->get()[0];
+                    $peringatan = 'jabatan sudah ada!<br>' . '<b>' . $ada->nama . ' - ' . $ada->jabatan . '</b>';
+                    return redirect('/')->with('danger', $peringatan);
+                } 
+            } 
+
             if(Sertifikat::count() < 1){
                 $nomor = 511;
             } else {
@@ -45,8 +59,9 @@ class FillPDFController extends Controller
         $nama = $validated['nama'];
         $this->fillPDFNama(public_path() . '/master/dcc.pdf', $outputFileNama, $nama);
         $this->fillPDFNomor(public_path() . '/dcc.pdf', $outputFileNomor, $nomor);
-
-        return response()->file($outputFileNomor);
+        $this->fillPDFJabatan(public_path() . "\sertif\sertifikat staff tetap.pdf", $outputFileJabatan, $validated['jabatan']);
+        
+        return response()->file($outputFileJabatan);
     }
 
     public function fillPDFNama($file, $outputFileNama, $nama){
@@ -56,7 +71,7 @@ class FillPDFController extends Controller
         $size = $fpdi->getTemplateSize($template);
         $fpdi->AddPage($size['orientation'],[$size['width'], $size['height']]);
         $fpdi->useTemplate($template);
-        $top = 160;
+        $top = 150;
         $right = 270;
         $fpdi->SetFont('helvetica',"",40);
         $fpdi->SetTextColor(25,26,26);
@@ -79,6 +94,29 @@ class FillPDFController extends Controller
         $fpdi1->Cell($right,$top,$nomor,0,1,"C");
 
         return $fpdi1->Output($outputFileNomor, 'F');
+        // return $outputFileNomor;
+    }
+
+    public function fillPDFJabatan($file, $outputFileJabatan, $jabatan = null){
+        $fpdi2 = new FPDI;
+        $fpdi2->setSourceFile($file);
+        $template = $fpdi2->importPage(1);
+        $size = $fpdi2->getTemplateSize($template);
+        $fpdi2->AddPage($size['orientation'],[$size['width'], $size['height']]);
+        $fpdi2->useTemplate($template);
+        $top = 180;
+        $right = 270;
+        $fpdi2->SetFont('helvetica',"b",17);
+        $fpdi2->SetTextColor(25,26,26);
+        if($jabatan == null){
+            $jabatan = 'Sebagai Anggota Staff Tetap';
+        } else {
+            $jabatan = 'Sebagai ' . $jabatan;
+        }
+
+        $fpdi2->Cell($right,$top,$jabatan,0,1,"C");
+
+        return $fpdi2->Output($outputFileJabatan, 'F');
         // return $outputFileNomor;
     }
 
