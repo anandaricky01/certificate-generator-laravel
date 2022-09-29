@@ -1,0 +1,5 @@
+@include('layout.partials.head')
+@include('layout.partials.header')
+@include('layout.partials.sidebar')
+    @yield('container')
+@include('layout.partials.footer')

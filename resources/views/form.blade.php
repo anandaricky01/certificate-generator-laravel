@@ -10,7 +10,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
 
-    
+
 
     <!-- Bootstrap core CSS -->
 <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,13 +33,13 @@
     <link href="/css/signin.css" rel="stylesheet">
   </head>
   <body class="text-center">
-    
+
 <main class="form-signin">
 
   @if(session()->has('danger'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
       {!! session('danger') !!}
-    </div>    
+    </div>
   @endif
 
   <form action="/pdf" method="POST">
@@ -86,11 +86,14 @@
     </select>
     <div class="mb-3"></div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Cetak</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2021–2022</p>
-  </form>
+</form>
+<div class="my-3"></div>
+<p>Terdapat kesalahan? Hubungi admin segera! klink link di bawah</p>
+<a href="/pesan-admin" class="btn btn-danger">Hubungi Admin</a>
+<p class="mt-5 mb-3 text-muted">&copy; 2021–2022</p>
 </main>
 
 
-    
+
   </body>
 </html>
